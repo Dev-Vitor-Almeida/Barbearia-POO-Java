@@ -3,6 +3,7 @@ import model.Barbeiro;
 import model.Servico;
 import model.Agendamento;
 import java.util.ArrayList;
+import servico.AgendamentoServico;
 public class Main {
     public static void main(String[] args) {
         Cliente cliente1 = new Cliente(
@@ -113,7 +114,6 @@ public class Main {
         barbeiro3.mostrarInformacoes(agendamento3);
 
 
-
         ArrayList<Cliente> clientes = new ArrayList<>();
         ArrayList<Barbeiro> barbeiros = new ArrayList<>();
         ArrayList<Servico> servicos = new ArrayList<>();
@@ -156,6 +156,60 @@ public class Main {
         for (Agendamento a : agendamentos) {
             System.out.println(a);
         }
+
+        String nomeBusca = "Vitor";
+        boolean encontrado = false;
+
+        System.out.println("\n== BUSCANDO AGENDAMENTO ===");
+
+        for (Agendamento a : agendamentos) {
+            if (a.getCliente().getNome() == (nomeBusca)) {
+                System.out.println("Agendamento encontrado.");
+                System.out.println(a);
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("Nenhum agendamento encontrado para o cliente: " + nomeBusca);
+        }
+        String nomeCancelamento = "Erick";
+        boolean removido = false;
+
+        System.out.println("\n=== CANCELANDO AGENDAMENTO");
+
+        for (Agendamento a : agendamentos) {
+            if (a.getCliente().getNome().equals(nomeCancelamento)) {
+                agendamentos.remove(a);
+                System.out.println("Agendamento cancelado com sucesso.");
+                removido = true;
+                break;
+            }
+        }
+        if (!removido) {
+            System.out.println("Agendamento não encontrado.");
+        }
+
+        String nomeEdicao = "Davi";
+        boolean atualizado = false;
+
+        System.out.println("\n=== ATUALIZANDO AGENDAMENTO ===");
+        for (Agendamento a : agendamentos) {
+            if (a.getCliente().getNome().equals(nomeEdicao)) {
+                a.setHorario("14:30");
+                System.out.println("Horário alterado com sucesso.");
+                System.out.println(a);
+                atualizado = true;
+                break;
+            }
+        }
+        if (!atualizado) {
+            System.out.println("Agendamento não encontrado.");
+        }
+
+        AgendamentoServico agendamentoServico = new AgendamentoServico();
+
+        agendamentoServico.listarAgendamentos(agendamentos);
+        agendamentoServico.buscarPorCliente(agendamentos,"Vitor");
     }
 }
-

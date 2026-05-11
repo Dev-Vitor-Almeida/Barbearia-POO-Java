@@ -20,8 +20,8 @@ public class Barbeiro extends Pessoa {
     @Override
     public String toString() {
         return "Barbeiro{" +
-                "especialidade='" + especialidade + '\'' +
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
+                ", especialidade='" + especialidade + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
