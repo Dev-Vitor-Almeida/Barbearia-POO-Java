@@ -3,9 +3,10 @@ package model;
 public class Barbeiro extends Pessoa {
 
     private String especialidade;
+    private int id;
 
-    public Barbeiro(String nome, String telefone, String email, String especialidade) {
-        super(nome, telefone, email);
+    public Barbeiro(String nome, String telefone, String email, String especialidade, String senha) {
+        super(nome, telefone, email, senha);
         this.especialidade = especialidade;
     }
 
@@ -35,5 +36,13 @@ public class Barbeiro extends Pessoa {
                 "\nCliente: " + agendamento.getCliente().getNome() +
                 "\nServiço: " + agendamento.getServico().getNome()
         );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

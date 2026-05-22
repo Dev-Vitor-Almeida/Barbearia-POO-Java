@@ -1,52 +1,85 @@
+import dao.BarbeiroDAO;
+import dao.AgendamentoDAO;
+import dao.ServicoDAO;
+import dao.ClienteDAO;
 import model.Cliente;
 import model.Barbeiro;
 import model.Servico;
 import model.Agendamento;
 import java.util.ArrayList;
-import servico.AgendamentoServico;
+import service.AgendamentoService;
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Cliente cliente1 = new Cliente(
                 "Vitor",
                 "(11) 95881-0400",
                 "473.414.308-00",
-                "almeidavitor028@gmail.com"
+                "almeidavitor028@gmail.com",
+                "123"
         );
 
         Cliente cliente2 = new Cliente(
                 "Davi",
                 "(11) 96589-3345",
                 "777.777.777-02",
-                "divizinho028@gmail.com"
+                "divizinho028@gmail.com",
+                "pipoca"
+
         );
 
         Cliente cliente3 = new Cliente(
                 "Erick",
                 "(11) 96589-9989",
                 "769.757.896-02",
-                "zinho028@gmail.com"
+                "zinho028@gmail.com",
+                "coca"
         );
+
+        ClienteDAO clienteDAO = new ClienteDAO();
+
+        //clienteDAO.salvarCliente(cliente1);
+
+        ArrayList<Cliente> clientesDoBanco =
+                clienteDAO.listarClientes();
+
+        System.out.println("\n=== CLIENTES DO BANCO ===");
+
+                for (Cliente c : clientesDoBanco) {
+                    System.out.println(c);
+        }
+
+        BarbeiroDAO barbeiroDAO = new BarbeiroDAO();;
 
         Barbeiro barbeiro1 = new Barbeiro(
                 "David",
                 "4482-8922",
                 "david@gmail.com",
-                "corte"
+                "corte",
+                "banana"
         );
 
         Barbeiro barbeiro2 = new Barbeiro(
                 "James",
                 "5508-2233",
                 "james@barbeiro.com",
-                "corte, barba"
+                "corte, barba",
+                "corte"
         );
 
         Barbeiro barbeiro3 = new Barbeiro(
                 "Jappa",
                 "6699-8899",
                 "jappabarbeiro@.com",
-                "Corte, barba e sombracelha"
+                "Corte, barba e sombracelha",
+                "brasa"
         );
+
+        //barbeiroDAO.salvarBarbeiro(barbeiro1);
+        //barbeiroDAO.salvarBarbeiro(barbeiro2);
+        //barbeiroDAO.salvarBarbeiro(barbeiro3);
+
+        ServicoDAO servicoDAO = new ServicoDAO();
 
         Servico servico1 = new Servico(
                 "corte",
@@ -78,6 +111,14 @@ public class Main {
                 60
         );
 
+        //servicoDAO.salvarServico(servico1);
+        //servicoDAO.salvarServico(servico2);
+        //servicoDAO.salvarServico(servico3);
+        //servicoDAO.salvarServico(servico4);
+        //servicoDAO.salvarServico(servico5);
+
+        AgendamentoDAO agendamentoDAO = new AgendamentoDAO();
+
         Agendamento agendamento = new Agendamento(
                 cliente1,
                 barbeiro1,
@@ -101,17 +142,6 @@ public class Main {
                 "16/05/2026",
                 "16:00"
         );
-
-        System.out.println(agendamento);
-
-        cliente1.mostrarInformacoes(agendamento);
-        barbeiro1.mostrarInformacoes(agendamento);
-
-        cliente2.mostrarInformacoes(agendamento2);
-        barbeiro2.mostrarInformacoes(agendamento2);
-
-        cliente3.mostrarInformacoes(agendamento3);
-        barbeiro3.mostrarInformacoes(agendamento3);
 
 
         ArrayList<Cliente> clientes = new ArrayList<>();
@@ -137,79 +167,209 @@ public class Main {
         agendamentos.add(agendamento2);
         agendamentos.add(agendamento3);
 
-        System.out.println("\n=== CLIENTES CADASTRADOS ===");
-        for (Cliente c : clientes) {
-            System.out.println(c);
-        }
+        AgendamentoService serviceAgendamento = new AgendamentoService();
 
-        System.out.println("\n=== BARBEIROS CADASTRADOS ===");
-        for (Barbeiro b : barbeiros) {
-            System.out.println(b);
-        }
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+        do {
+            System.out.println("""
+        
+====================================
+      SISTEMA DA BARBEARIA
+====================================
+1 - Listar agendamentos
+2 - Buscar agendamento
+3 - Cancelar agendamento
+4 - Atualizar horário
+5 - Novo agendamento
+6 - Login cliente
+7 - Login barbeiro
+8 - Cadastrar cliente
+0 - Sair
+====================================
+""");
 
-        System.out.println("\n=== SERVICOS CADASTRADOS ===");
-        for (Servico s : servicos) {
-            System.out.println(s);
-        }
+            opcao = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.println("\n=== AGENDAMENTO CADASTRADOS ===");
-        for (Agendamento a : agendamentos) {
-            System.out.println(a);
-        }
+            switch (opcao) {
+                case 1:
+                    agendamentoDAO.listarAgendamentos();
+                    break;
+                case 2:
+                    System.out.print("Digite o nome do Cliente: ");
+                    String nomeBusca = scanner.nextLine();
+                    serviceAgendamento.buscarPorCliente(agendamentos, nomeBusca);
+                    break;
+                    case 3:
+                        System.out.print("Digite o nome do cliente para cancelar: ");
+                        String nomeCancelamento = scanner.nextLine();
+                        serviceAgendamento.cancelarAgendamento(agendamentos, nomeCancelamento);
+                        break;
+                case 4:
+                    System.out.print("Digite o nome do   Cliente: ");
+                    String nomeCliente = scanner.nextLine();
 
-        String nomeBusca = "Vitor";
-        boolean encontrado = false;
+                    System.out.print("Digite o novo horário: ");
+                    String novoHorario = scanner.nextLine();
+                    serviceAgendamento.atualizarHorario(
+                            agendamentos,
+                            nomeCliente,
+                            novoHorario
+                    );
 
-        System.out.println("\n== BUSCANDO AGENDAMENTO ===");
+                    break;
+                case 5:
+                    System.out.print("Nome do cliente:");
+                    String nomeNovoCliente = scanner.nextLine();
 
-        for (Agendamento a : agendamentos) {
-            if (a.getCliente().getNome() == (nomeBusca)) {
-                System.out.println("Agendamento encontrado.");
-                System.out.println(a);
-                encontrado = true;
+                    System.out.print("Nome do Barbeiro: ");
+                    String nomeBarbeiro = scanner.nextLine();
+
+                    System.out.print("Nome do serviço: ");
+                    String nomeServico = scanner.nextLine();
+
+                    System.out.print("Data do agendamento: ");
+                    String data = scanner.nextLine();
+
+                    System.out.print("Horário do agendamento: ");
+                    String horario = scanner.nextLine();
+
+                    Cliente clienteEncontrado =
+                            clienteDAO.buscarClientePorNome(nomeNovoCliente);
+
+                    Barbeiro barbeiroEncontrado =
+                            barbeiroDAO.buscarBarbeiroPorNome(
+                                    nomeBarbeiro
+                            );
+
+                    Servico servicoEncontrado =
+                            servicoDAO.buscarServicoPorNome(nomeServico);
+
+                    if (clienteEncontrado != null && barbeiroEncontrado != null && servicoEncontrado != null) {
+                        Agendamento novoAgendamento = new Agendamento(
+                                clienteEncontrado,
+                                barbeiroEncontrado,
+                                servicoEncontrado,
+                                data,
+                                horario
+                        );
+
+                        serviceAgendamento.adicionarAgendamento(
+                                agendamentos,
+                                novoAgendamento
+                        );
+
+
+                        agendamentoDAO.salvarAgendamento(novoAgendamento);
+
+                    } else {
+                        if (clienteEncontrado == null) {
+                            System.out.println("Cliente não encontrado.");
+                        }
+
+                        if (barbeiroEncontrado == null) {
+                            System.out.println("Barbeiro não encontrado.");
+                        }
+
+                        if (servicoEncontrado == null) {
+                            System.out.println("Serviço não encontrado.");
+                        }
+                    }
+
+                    break;
+
+                case 6:
+                    System.out.print("Digite seu email: ");
+                    String emailLogin = scanner.nextLine();
+
+                    System.out.println("Digite sua senha: ");
+                    String senhaLogin = scanner.nextLine();
+
+                    Cliente clienteLogado =
+                            clienteDAO.loginCliente(emailLogin, senhaLogin);
+
+                    if (clienteLogado != null) {
+
+                        System.out.println("\n=== Login realizado com sucesso ===");
+                        System.out.println("Bem vindo, " + clienteLogado.getNome());
+
+                        serviceAgendamento.listarAgendamentosCliente(
+                                agendamentos,clienteLogado
+                        );
+                    } else {
+                        System.out.println("email ou senha inválidos");
+                    }
+
+                    break;
+
+                case 7:
+                    System.out.print("Digite seu email: ");
+                    String emailBarbeiro = scanner.nextLine();
+
+                    System.out.println("Digite sua senha: ");
+                    String senhaBarbeiro = scanner.nextLine();
+
+                    Barbeiro barbeiroLogado =
+                            barbeiroDAO.loginBarbeiro(
+                                    emailBarbeiro,
+                                    senhaBarbeiro
+                            );
+
+                    if (barbeiroLogado != null) {
+                        System.out.println("\n Login realizado com sucesso");
+                        System.out.println("Bem vindo, " + barbeiroLogado.getNome());
+
+                        serviceAgendamento.listarAgendamentosBarbeiro(
+                                agendamentos,barbeiroLogado
+                        );
+                    } else {
+                        System.out.println("Email ou senha inválidos");
+                    }
+
+                    break;
+
+                case 8:
+
+                    System.out.print("Nome: ");
+                    String nome = scanner.nextLine();
+
+                    System.out.print("CPF: ");
+                    String cpf = scanner.nextLine();
+
+                    System.out.print("Telefone: ");
+                    String telefone = scanner.nextLine();
+
+                    System.out.print("Email: ");
+                    String email =  scanner.nextLine();
+
+                    System.out.print("Senha: ");
+                    String senha = scanner.nextLine();
+
+                    Cliente novoCliente = new Cliente(
+                            nome,
+                            cpf,
+                            telefone,
+                            email,
+                            senha
+                    );
+
+                    clienteDAO.salvarCliente(novoCliente);
+
+                    break;
+
+
+                case 0:
+                    System.out.println("Encerrando Sistema...");
+
+                    break;
+
+                    default:
+
+                        System.out.println("Opção inválida.");
             }
-        }
+        } while (opcao != 0);
 
-        if (!encontrado) {
-            System.out.println("Nenhum agendamento encontrado para o cliente: " + nomeBusca);
-        }
-        String nomeCancelamento = "Erick";
-        boolean removido = false;
-
-        System.out.println("\n=== CANCELANDO AGENDAMENTO");
-
-        for (Agendamento a : agendamentos) {
-            if (a.getCliente().getNome().equals(nomeCancelamento)) {
-                agendamentos.remove(a);
-                System.out.println("Agendamento cancelado com sucesso.");
-                removido = true;
-                break;
-            }
-        }
-        if (!removido) {
-            System.out.println("Agendamento não encontrado.");
-        }
-
-        String nomeEdicao = "Davi";
-        boolean atualizado = false;
-
-        System.out.println("\n=== ATUALIZANDO AGENDAMENTO ===");
-        for (Agendamento a : agendamentos) {
-            if (a.getCliente().getNome().equals(nomeEdicao)) {
-                a.setHorario("14:30");
-                System.out.println("Horário alterado com sucesso.");
-                System.out.println(a);
-                atualizado = true;
-                break;
-            }
-        }
-        if (!atualizado) {
-            System.out.println("Agendamento não encontrado.");
-        }
-
-        AgendamentoServico agendamentoServico = new AgendamentoServico();
-
-        agendamentoServico.listarAgendamentos(agendamentos);
-        agendamentoServico.buscarPorCliente(agendamentos,"Vitor");
+        scanner.close();
     }
 }

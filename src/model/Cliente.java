@@ -2,11 +2,12 @@ package model;
 
 public class Cliente extends Pessoa{
     private String cpf;
+    private int id;
 
 
-    public Cliente(String nome, String telefone, String cpf, String email) {
+    public Cliente(String nome, String telefone, String cpf, String email, String senha) {
 
-        super(nome, telefone, email);
+        super(nome, telefone, email, senha);
 
         this.cpf = cpf;
     }
@@ -39,6 +40,14 @@ public class Cliente extends Pessoa{
                 "\nData: " + agendamento.getData() +
                 "\nHorário: " + agendamento.getHorario()
         );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

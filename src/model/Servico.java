@@ -4,6 +4,7 @@ public class Servico {
     private String nome;
     private double preco;
     private int duracaoMinutos;
+    private int id;
 
     public Servico(String nome, double preco, int duracaoMinutos) {
         this.nome = nome;
@@ -42,5 +43,13 @@ public class Servico {
                 ", preco=" + preco +
                 ", duracaoMinutos=" + duracaoMinutos +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
