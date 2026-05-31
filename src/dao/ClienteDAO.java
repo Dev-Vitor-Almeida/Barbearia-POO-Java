@@ -2,6 +2,7 @@ package dao;
 
 import model.Cliente;
 import util.ConexaoDB;
+import util.SenhaUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class ClienteDAO {
             statement.setString(2, cliente.getTelefone());
             statement.setString(3, cliente.getCpf());
             statement.setString(4, cliente.getEmail());
-            statement.setString(5, cliente.getSenha());
+            statement.setString(5, SenhaUtil.gerarHash(cliente.getSenha()));
 
             statement.executeUpdate();
 
@@ -72,6 +73,7 @@ public class ClienteDAO {
                         resultado.getString("senha")
                 );
 
+                cliente.setId(resultado.getInt("id_cliente"));
                 clientes.add(cliente);
             }
 
@@ -89,7 +91,7 @@ public class ClienteDAO {
 
     public Cliente loginCliente(String email, String senha) {
 
-        String sql = "SELECT * FROM cliente WHERE email = ? AND senha = ?";
+        String sql = "SELECT * FROM cliente WHERE email = ?";
 
         try {
             Connection conexao = ConexaoDB.conectar();
@@ -98,12 +100,10 @@ public class ClienteDAO {
                     conexao.prepareStatement(sql);
 
             statement.setString(1, email);
-            statement.setString(2, senha);
-
             ResultSet resultado =
                     statement.executeQuery();
 
-            if (resultado.next()) {
+            if (resultado.next() && SenhaUtil.conferir(senha, resultado.getString("senha"))) {
                 Cliente cliente = new Cliente(
                         resultado.getString("nome"),
                         resultado.getString("telefone"),
@@ -163,6 +163,38 @@ public class ClienteDAO {
             System.out.println("Erro ao buscar cliente.");
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public Cliente buscarClientePorId(int id) {
+        String sql = "SELECT * FROM cliente WHERE id_cliente = ?";
+
+        try {
+            Connection conexao = ConexaoDB.conectar();
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultado = statement.executeQuery();
+
+            if (resultado.next()) {
+                Cliente cliente = new Cliente(
+                        resultado.getString("nome"),
+                        resultado.getString("telefone"),
+                        resultado.getString("cpf"),
+                        resultado.getString("email"),
+                        resultado.getString("senha")
+                );
+                cliente.setId(resultado.getInt("id_cliente"));
+                conexao.close();
+                return cliente;
+            }
+
+            conexao.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar cliente por ID.");
+            e.printStackTrace();
+        }
+
         return null;
     }
 

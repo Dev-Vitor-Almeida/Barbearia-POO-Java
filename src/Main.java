@@ -187,7 +187,7 @@ public class Main {
 8 - Cadastrar cliente
 0 - Sair
 ====================================
-""");
+Digite uma opção:""");
 
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -199,12 +199,12 @@ public class Main {
                 case 2:
                     System.out.print("Digite o nome do Cliente: ");
                     String nomeBusca = scanner.nextLine();
-                    serviceAgendamento.buscarPorCliente(agendamentos, nomeBusca);
+                    agendamentoDAO.buscarAgendamentoPorCliente(nomeBusca);
                     break;
                     case 3:
                         System.out.print("Digite o nome do cliente para cancelar: ");
                         String nomeCancelamento = scanner.nextLine();
-                        serviceAgendamento.cancelarAgendamento(agendamentos, nomeCancelamento);
+                        agendamentoDAO.cancelarAgendamentoPorCliente(nomeCancelamento);
                         break;
                 case 4:
                     System.out.print("Digite o nome do   Cliente: ");
@@ -212,8 +212,7 @@ public class Main {
 
                     System.out.print("Digite o novo horário: ");
                     String novoHorario = scanner.nextLine();
-                    serviceAgendamento.atualizarHorario(
-                            agendamentos,
+                    agendamentoDAO.atualizarHorarioAgendamento(
                             nomeCliente,
                             novoHorario
                     );
@@ -234,6 +233,11 @@ public class Main {
 
                     System.out.print("Horário do agendamento: ");
                     String horario = scanner.nextLine();
+
+                    if (data.isEmpty() || horario.isEmpty()) {
+                        System.out.println("Data e horário são obrigatórios.");
+                        break;
+                    }
 
                     Cliente clienteEncontrado =
                             clienteDAO.buscarClientePorNome(nomeNovoCliente);
@@ -285,6 +289,11 @@ public class Main {
 
                     System.out.println("Digite sua senha: ");
                     String senhaLogin = scanner.nextLine();
+
+                    if (emailLogin.isEmpty() || senhaLogin.isEmpty()) {
+                        System.out.println("Digite email e senha.");
+                        break;
+                    }
 
                     Cliente clienteLogado =
                             clienteDAO.loginCliente(emailLogin, senhaLogin);
@@ -345,6 +354,11 @@ public class Main {
 
                     System.out.print("Senha: ");
                     String senha = scanner.nextLine();
+
+                    if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+                        System.out.println("Preencha todos os campos obrigatórios.");
+                        break;
+                    }
 
                     Cliente novoCliente = new Cliente(
                             nome,
