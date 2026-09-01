@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Barbeiro | Barbearia Mestre das Tesouras</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body class="auth-page">
+    <header class="topbar">
+        <a class="brand" href="Index.html">
+            <span class="brand-mark">
+                <img src="icones/barbearia.png" alt="">
+            </span>
+            <span>
+                <strong>Mestre das Tesouras</strong>
+                <small>Barbearia premium</small>
+            </span>
+        </a>
+
+        <nav class="menu" aria-label="Menu principal">
+            <a href="Index.html">Inicio</a>
+            <a href="Login.html">Login</a>
+            <a href="Cadastro.html">Cadastro</a>
+            <a href="Agendamento.html">Agendamento</a>
+            <a href="PainelBarbeiro.html" data-auth-link hidden>Painel</a>
+            <a href="#" data-logout-link hidden>Sair</a>
+        </nav>
+    </header>
+
+    <main class="panel-screen">
+        <section class="panel-heading">
+            <p class="eyebrow">Controle da barbearia</p>
+            <h1>Painel do barbeiro</h1>
+        </section>
+
+        <section class="panel-grid">
+            <article class="form-panel panel-card">
+                <p class="eyebrow">Agenda</p>
+                <h2>Agendamentos</h2>
+
+                <form class="premium-form compact-form" data-form="filtro-agendamentos">
+                    <label for="busca-cliente">Buscar cliente</label>
+                    <input id="busca-cliente" name="cliente" type="text" placeholder="Nome do cliente">
+                    <button class="btn btn-secondary" type="submit">Buscar</button>
+                </form>
+
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Barbeiro</th>
+                                <th>Servico</th>
+                                <th>Data</th>
+                                <th>Horario</th>
+                                <th>Acoes</th>
+                            </tr>
+                        </thead>
+                        <tbody data-list="agendamentos">
+                            <tr>
+                                <td colspan="6">Carregando agendamentos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="form-panel panel-card">
+                <p class="eyebrow">Novo profissional</p>
+                <h2>Cadastrar barbeiro</h2>
+
+                <form class="premium-form" data-form="barbeiro">
+                    <label for="nome-barbeiro">Nome</label>
+                    <input id="nome-barbeiro" name="nome" type="text" required>
+
+                    <label for="telefone-barbeiro">Telefone</label>
+                    <input id="telefone-barbeiro" name="telefone" type="tel" required>
+
+                    <label for="email-barbeiro">E-mail</label>
+                    <input id="email-barbeiro" name="email" type="email" required>
+
+                    <label for="especialidade">Especialidade</label>
+                    <input id="especialidade" name="especialidade" type="text" required>
+
+                    <label for="senha-barbeiro">Senha</label>
+                    <input id="senha-barbeiro" name="senha" type="password" required>
+
+                    <button class="btn btn-primary" type="submit">Cadastrar barbeiro</button>
+                </form>
+            </article>
+
+            <article class="form-panel panel-card">
+                <p class="eyebrow">Catalogo</p>
+                <h2>Cadastrar servico</h2>
+
+                <form class="premium-form" data-form="servico">
+                    <label for="nome-servico">Nome do servico</label>
+                    <input id="nome-servico" name="nome" type="text" required>
+
+                    <label for="preco">Preco</label>
+                    <input id="preco" name="preco" type="number" min="0" step="0.01" required>
+
+                    <label for="duracao">Duracao em minutos</label>
+                    <input id="duracao" name="duracaoMinutos" type="number" min="1" required>
+
+                    <button class="btn btn-primary" type="submit">Cadastrar servico</button>
+                </form>
+            </article>
+        </section>
+    </main>
+
+    <script src="Script.js"></script>
+</body>
+</html>
+

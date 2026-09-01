@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Barbearia Mestre das Tesouras</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body class="auth-page">
+    <header class="topbar">
+        <a class="brand" href="Index.html">
+            <span class="brand-mark">
+                <img src="icones/barbearia.png" alt="">
+            </span>
+            <span>
+                <strong>Mestre das Tesouras</strong>
+                <small>Barbearia premium</small>
+            </span>
+        </a>
+
+        <nav class="menu" aria-label="Menu principal">
+            <a href="Index.html">Início</a>
+            <a href="Login.html">Login</a>
+            <a href="Cadastro.html">Cadastro</a>
+            <a href="Agendamento.html">Agendamento</a>
+            <a href="Painel.html" data-auth-link hidden>Painel</a>
+            <a href="#" data-logout-link hidden>Sair</a>
+        </nav>
+    </header>
+
+    <main class="form-screen">
+        <section class="form-panel">
+            <p class="eyebrow">Área do cliente</p>
+            <h1>Entrar na conta</h1>
+            <p class="form-intro">Acesse sua conta para acompanhar agendamentos e remarcar horários.</p>
+
+            <form class="premium-form" data-form="login">
+                <label for="tipo-login">Tipo de acesso</label>
+                <select id="tipo-login" name="tipo" required>
+                    <option value="cliente">Cliente</option>
+                    <option value="barbeiro">Barbeiro</option>
+                </select>
+
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" placeholder="seuemail@exemplo.com" required>
+
+                <label for="senha">Senha</label>
+                <input id="senha" name="senha" type="password" placeholder="Digite sua senha" required>
+
+                <button class="btn btn-primary" type="submit">Entrar</button>
+            </form>
+
+            <p class="form-link">Ainda não tem conta? <a href="Cadastro.html">Cadastre-se</a></p>
+        </section>
+    </main>
+    <script src="Script.js"></script>
+</body>
+</html>
+
